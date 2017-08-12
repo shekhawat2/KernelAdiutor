@@ -2196,7 +2196,23 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
     private void coreCtlInit(List<RecyclerViewItem> items) {
         List<RecyclerViewItem> coreCtl = new ArrayList<>();
         TitleView title = new TitleView();
-        title.setText(getString(mCoreCtl.hasEnable() ? R.string.hcube : R.string.core_control));
+        title.setText(getString(R.string.core_control));
+
+        if (mCoreCtl.hasEnable()) {
+                SwitchView enable = new SwitchView();
+                enable.setTitle(getString(R.string.core_control));
+                enable.setSummary(getString(R.string.core_control_summary));
+                enable.setChecked(mCoreCtl.isEnabled());
+                enable.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+                    @Override
+                    public void onChanged(SwitchView switchView, boolean isChecked) {
+                        mCoreCtl.enable(isChecked, getActivity());
+                    }
+                });
+
+                coreCtl.add(enable);
+                mEnableViews.add(enable);
+        }
 
         if (mCoreCtl.hasMinCpus(mCPUFreq.getBigCpu())) {
             SeekBarView minCpus = new SeekBarView();
@@ -2302,28 +2318,6 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
 
         if (coreCtl.size() > 0) {
             items.add(title);
-
-            if (mCoreCtl.hasEnable()) {
-                SwitchView enable = new SwitchView();
-                enable.setTitle(getString(R.string.hcube));
-                enable.setSummary(getString(R.string.hcube_summary));
-                enable.setChecked(mCoreCtl.isEnabled());
-                enable.addOnSwitchListener(new SwitchView.OnSwitchListener() {
-                    @Override
-                    public void onChanged(SwitchView switchView, boolean isChecked) {
-                        mCoreCtl.enable(isChecked, getActivity());
-                    }
-                });
-
-                items.add(enable);
-                mEnableViews.add(enable);
-            } else {
-                DescriptionView description = new DescriptionView();
-                description.setTitle(getString(R.string.core_control));
-                description.setSummary(getString(R.string.core_control_summary));
-                items.add(description);
-            }
-
             items.addAll(coreCtl);
         }
     }
