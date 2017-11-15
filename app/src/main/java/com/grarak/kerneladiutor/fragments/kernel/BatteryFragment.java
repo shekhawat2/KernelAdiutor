@@ -31,6 +31,7 @@ import com.grarak.kerneladiutor.fragments.DescriptionFragment;
 import com.grarak.kerneladiutor.fragments.RecyclerViewFragment;
 import com.grarak.kerneladiutor.utils.kernel.battery.Battery;
 import com.grarak.kerneladiutor.views.recyclerview.CardView;
+import com.grarak.kerneladiutor.views.recyclerview.SelectView;
 import com.grarak.kerneladiutor.views.recyclerview.RecyclerViewItem;
 import com.grarak.kerneladiutor.views.recyclerview.SeekBarView;
 import com.grarak.kerneladiutor.views.recyclerview.StatsView;
@@ -60,6 +61,9 @@ public class BatteryFragment extends RecyclerViewFragment {
         if (Battery.hasBlx()) {
             blxInit(items);
         }
+        if (Battery.hasQCCurrent()) {
+	    quickChargeInit(items);
+	}
         chargeRateInit(items);
     }
 
@@ -176,6 +180,70 @@ public class BatteryFragment extends RecyclerViewFragment {
             items.add(chargeRateCard);
         }
     }
+
+     private void quickChargeInit(List<RecyclerViewItem> items) {
+         CardView quickChargeCard = new CardView(getActivity());
+         quickChargeCard.setTitle(getString(R.string.quick_charge));
+
+         if (Battery.hasQuickChargeEnable()) {
+             SwitchView quickCharge = new SwitchView();
+             quickCharge.setSummary(getString(R.string.quick_charge));
+             quickCharge.setChecked(Battery.isQuickChargeEnabled());
+             quickCharge.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+                 @Override
+                 public void onChanged(SwitchView switchView, boolean isChecked) {
+                     Battery.enableQuickCharge(isChecked, getActivity());
+		}
+	});
+
+             quickChargeCard.addItem(quickCharge);
+	}
+
+        if (Battery.hasChargeProfile()) {
+			List<String> freqs = new ArrayList<>();
+            SelectView chargeProfile = new SelectView();
+            chargeProfile.setTitle(getString(R.string.charge_profile));
+	    chargeProfile.setSummary(getString(R.string.charge_profile_summary));
+	    chargeProfile.setItems(Battery.getProfilesMenu(getActivity()));
+	    chargeProfile.setItem(Battery.getProfiles());
+	    chargeProfile.setOnItemSelected(new SelectView.OnItemSelected() {
+		@Override
+		public void onItemSelected(SelectView selectView, int position, String item) {
+                    Battery.setchargeProfile(position, getActivity());
+			}
+		});
+
+             quickChargeCard.addItem(chargeProfile);
+         }
+
+         if (Battery.hasQCCurrent()) {
+             SeekBarView quickCurrent = new SeekBarView();
+             quickCurrent.setTitle(getString(R.string.charging_current));
+             quickCurrent.setSummary(getString(R.string.charging_current_summary));
+             quickCurrent.setUnit(getString(R.string.ma));
+             quickCurrent.setMax(1500);
+             quickCurrent.setMin(100);
+             quickCurrent.setOffset(10);
+             quickCurrent.setProgress(Battery.getQCCurrent() / 10 - 10);
+             quickCurrent.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                 @Override
+                 public void onStop(SeekBarView seekBarView, int position, String value) {
+                     Battery.setQCCurrent((position + 10) * 10, getActivity());
+		}
+
+                 @Override
+                 public void onMove(SeekBarView seekBarView, int position, String value) {
+		}
+	});
+
+             quickChargeCard.addItem(quickCurrent);
+	}
+
+         if (quickChargeCard.size() > 0) {
+             items.add(quickChargeCard);
+		}
+	};
+
 
     private BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
         @Override
