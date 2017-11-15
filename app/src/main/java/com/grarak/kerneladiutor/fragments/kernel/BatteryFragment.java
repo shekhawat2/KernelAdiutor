@@ -47,14 +47,17 @@ public class BatteryFragment extends RecyclerViewFragment {
 
     private StatsView mLevel;
     private StatsView mVoltage;
+    private StatsView mCurrent;
 
     private static int sBatteryLevel;
     private static int sBatteryVoltage;
+    private static int sBatteryCurrent;
 
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
         levelInit(items);
         voltageInit(items);
+        currentInit(items);
         if (Battery.hasForceFastCharge()) {
             forceFastChargeInit(items);
         }
@@ -92,6 +95,13 @@ public class BatteryFragment extends RecyclerViewFragment {
         mVoltage.setTitle(getString(R.string.voltage));
 
         items.add(mVoltage);
+    }
+
+    private void currentInit(List<RecyclerViewItem> items) {
+        mCurrent = new StatsView();
+        mCurrent.setTitle(getString(R.string.current));
+
+        items.add(mCurrent);
     }
 
     private void forceFastChargeInit(List<RecyclerViewItem> items) {
@@ -244,12 +254,12 @@ public class BatteryFragment extends RecyclerViewFragment {
 		}
 	};
 
-
     private BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             sBatteryLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
             sBatteryVoltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0);
+            sBatteryCurrent = Integer.valueOf(Battery.getCurrentNow());
         }
     };
 
@@ -262,6 +272,9 @@ public class BatteryFragment extends RecyclerViewFragment {
         if (mVoltage != null) {
             mVoltage.setStat(sBatteryVoltage + getString(R.string.mv));
         }
+        if (mCurrent != null) {
+            mCurrent.setStat(sBatteryCurrent + getString(R.string.ma));
+	}
     }
 
     @Override
