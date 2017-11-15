@@ -31,6 +31,7 @@
             android:key="hide_banner"
             android:summary="@string/hide_banner" />
         <SwitchPreferenceCompat
+            android:defaultValue="true"
             android:key="forcecards"
             android:summary="@string/force_cards_summary"
             android:title="@string/force_cards" />
