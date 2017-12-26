@@ -101,6 +101,7 @@ import com.grarak.kerneladiutor.utils.kernel.screen.Screen;
 import com.grarak.kerneladiutor.utils.kernel.sound.Sound;
 import com.grarak.kerneladiutor.utils.kernel.thermal.Thermal;
 import com.grarak.kerneladiutor.utils.kernel.wake.Wake;
+import com.grarak.kerneladiutor.utils.kernel.wakelock.BoefflaWakelock;
 import com.grarak.kerneladiutor.utils.kernel.wakelock.Wakelock;
 import com.grarak.kerneladiutor.utils.root.RootUtils;
 import com.grarak.kerneladiutor.utils.tools.Backup;
@@ -226,7 +227,7 @@ public class NavigationActivity extends BaseActivity
         if (LMK.supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.lmk, LMKFragment.class, R.drawable.ic_stackoverflow));
         }
-        if (Wakelock.supported()) {
+        if (Wakelock.supported() || BoefflaWakelock.supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.wakelock_nav, WakelockFragment.class, R.drawable.ic_unlock));
         }
         mFragments.add(new NavigationActivity.NavigationFragment(R.string.virtual_memory, VMFragment.class, R.drawable.ic_server));

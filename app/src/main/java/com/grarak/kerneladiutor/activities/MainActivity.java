@@ -62,6 +62,7 @@ import com.grarak.kerneladiutor.utils.kernel.screen.Screen;
 import com.grarak.kerneladiutor.utils.kernel.sound.Sound;
 import com.grarak.kerneladiutor.utils.kernel.thermal.Thermal;
 import com.grarak.kerneladiutor.utils.kernel.wake.Wake;
+import com.grarak.kerneladiutor.utils.kernel.wakelock.BoefflaWakelock;
 import com.grarak.kerneladiutor.utils.root.RootUtils;
 
 import java.io.File;
@@ -84,6 +85,12 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Initialize Boeffla Wakelock Blocker Files
+        if(BoefflaWakelock.supported()) {
+            BoefflaWakelock.CopyWakelockBlockerDefault();
+        }
+
         setContentView(R.layout.activity_main);
 
         View splashBackground = findViewById(R.id.splash_background);
