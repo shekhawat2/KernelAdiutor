@@ -56,6 +56,7 @@ import com.grarak.kerneladiutor.fragments.kernel.IOFragment;
 import com.grarak.kerneladiutor.fragments.kernel.KSMFragment;
 import com.grarak.kerneladiutor.fragments.kernel.LEDFragment;
 import com.grarak.kerneladiutor.fragments.kernel.LMKFragment;
+import com.grarak.kerneladiutor.fragments.kernel.WakelockFragment;
 import com.grarak.kerneladiutor.fragments.kernel.MiscFragment;
 import com.grarak.kerneladiutor.fragments.kernel.ScreenFragment;
 import com.grarak.kerneladiutor.fragments.kernel.SoundFragment;
@@ -97,6 +98,7 @@ import com.grarak.kerneladiutor.utils.kernel.screen.Screen;
 import com.grarak.kerneladiutor.utils.kernel.sound.Sound;
 import com.grarak.kerneladiutor.utils.kernel.thermal.Thermal;
 import com.grarak.kerneladiutor.utils.kernel.wake.Wake;
+import com.grarak.kerneladiutor.utils.kernel.wakelock.Wakelock;
 import com.grarak.kerneladiutor.utils.root.RootUtils;
 import com.grarak.kerneladiutor.utils.tools.Backup;
 import com.grarak.kerneladiutor.utils.tools.SupportedDownloads;
@@ -213,6 +215,9 @@ public class NavigationActivity extends BaseActivity
         }
         if (LMK.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.lmk, new LMKFragment(), R.drawable.ic_stackoverflow));
+        }
+        if (Wakelock.supported()) {
+            sFragments.add(new NavigationActivity.NavigationFragment(R.string.wakelock_nav, new WakelockFragment(), R.drawable.ic_unlock));
         }
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.virtual_memory, new VMFragment(), R.drawable.ic_server));
         if (Entropy.supported()) {
