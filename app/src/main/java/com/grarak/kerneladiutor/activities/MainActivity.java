@@ -59,7 +59,7 @@ import com.grarak.kerneladiutor.utils.kernel.screen.Screen;
 import com.grarak.kerneladiutor.utils.kernel.sound.Sound;
 import com.grarak.kerneladiutor.utils.kernel.thermal.Thermal;
 import com.grarak.kerneladiutor.utils.kernel.wake.Wake;
-import com.grarak.kerneladiutor.utils.kernel.wakelock.BoefflaWakelock;
+import com.grarak.kerneladiutor.utils.kernel.boefflawakelock.BoefflaWakelock;
 import com.grarak.kerneladiutor.utils.root.RootUtils;
 
 import java.io.File;

@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.grarak.kerneladiutor.R;
 import com.grarak.kerneladiutor.activities.tools.profile.ProfileActivity;
 import com.grarak.kerneladiutor.fragments.kernel.BatteryFragment;
+import com.grarak.kerneladiutor.fragments.kernel.BoefflaWakelockFragment;
 import com.grarak.kerneladiutor.fragments.kernel.CPUFragment;
 import com.grarak.kerneladiutor.fragments.kernel.CPUHotplugFragment;
 import com.grarak.kerneladiutor.fragments.kernel.CPUVoltageFragment;
@@ -64,6 +65,7 @@ public class ApplyOnBootFragment extends BaseFragment {
     public static final String SCREEN = "screen_onboot";
     public static final String WAKE = "wake_onboot";
     public static final String WAKELOCK = "wakelock_onboot";
+    public static final String BOEFFLA_WAKELOCK = "boeffla_wakelock_onboot";
     public static final String SOUND = "sound_onboot";
     public static final String BATTERY = "battery_onboot";
     public static final String LED = "led_onboot";
@@ -91,6 +93,7 @@ public class ApplyOnBootFragment extends BaseFragment {
         sAssignments.put(KSMFragment.class, KSM);
         sAssignments.put(LMKFragment.class, LMK);
 	sAssignments.put(WakelockFragment.class, WAKELOCK);
+	sAssignments.put(BoefflaWakelockFragment.class, BOEFFLA_WAKELOCK);
         sAssignments.put(VMFragment.class, VM);
         sAssignments.put(EntropyFragment.class, ENTROPY);
         sAssignments.put(MiscFragment.class, MISC);

@@ -47,6 +47,7 @@ import com.grarak.kerneladiutor.R;
 import com.grarak.kerneladiutor.fragments.BaseFragment;
 import com.grarak.kerneladiutor.fragments.RecyclerViewFragment;
 import com.grarak.kerneladiutor.fragments.kernel.BatteryFragment;
+import com.grarak.kerneladiutor.fragments.kernel.BoefflaWakelockFragment;
 import com.grarak.kerneladiutor.fragments.kernel.CPUFragment;
 import com.grarak.kerneladiutor.fragments.kernel.CPUHotplugFragment;
 import com.grarak.kerneladiutor.fragments.kernel.CPUVoltageFragment;
@@ -98,7 +99,7 @@ import com.grarak.kerneladiutor.utils.kernel.screen.Screen;
 import com.grarak.kerneladiutor.utils.kernel.sound.Sound;
 import com.grarak.kerneladiutor.utils.kernel.thermal.Thermal;
 import com.grarak.kerneladiutor.utils.kernel.wake.Wake;
-import com.grarak.kerneladiutor.utils.kernel.wakelock.BoefflaWakelock;
+import com.grarak.kerneladiutor.utils.kernel.boefflawakelock.BoefflaWakelock;
 import com.grarak.kerneladiutor.utils.kernel.wakelock.Wakelock;
 import com.grarak.kerneladiutor.utils.root.RootUtils;
 import com.grarak.kerneladiutor.utils.tools.Backup;
@@ -217,8 +218,11 @@ public class NavigationActivity extends BaseActivity
         if (LMK.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.lmk, new LMKFragment(), R.drawable.ic_stackoverflow));
         }
-        if (Wakelock.supported() || BoefflaWakelock.supported()) {
+        if (Wakelock.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.wakelock_nav, new WakelockFragment(), R.drawable.ic_unlock));
+        }
+        if (BoefflaWakelock.supported()) {
+            sFragments.add(new NavigationActivity.NavigationFragment(R.string.boeffla_wakelock, new BoefflaWakelockFragment(), R.drawable.ic_unlock));
         }
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.virtual_memory, new VMFragment(), R.drawable.ic_server));
         if (Entropy.supported()) {
