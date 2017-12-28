@@ -25,8 +25,10 @@ import android.os.Vibrator;
 import com.grarak.kerneladiutor.R;
 import com.grarak.kerneladiutor.fragments.ApplyOnBootFragment;
 import com.grarak.kerneladiutor.fragments.recyclerview.RecyclerViewFragment;
+import com.grarak.kerneladiutor.utils.Utils;
 import com.grarak.kerneladiutor.utils.kernel.misc.Misc;
 import com.grarak.kerneladiutor.utils.kernel.misc.PowerSuspend;
+import com.grarak.kerneladiutor.utils.kernel.misc.Selinux;
 import com.grarak.kerneladiutor.utils.kernel.misc.Vibration;
 import com.grarak.kerneladiutor.utils.kernel.misc.Wakelocks;
 import com.grarak.kerneladiutor.views.recyclerview.CardView;
@@ -76,11 +78,40 @@ public class MiscFragment extends RecyclerViewFragment {
         if (mMisc.hasArchPower()) {
             archPowerInit(items);
         }
+        if (Selinux.supported()){
+            selinuxInit(items);
+        }
         if (PowerSuspend.supported()) {
             powersuspendInit(items);
         }
         networkInit(items);
         wakelockInit(items);
+    }
+
+    private void selinuxInit(List<RecyclerViewItem> items){
+        CardView sl = new CardView();
+        sl.setTitle(getString(R.string.selinux));
+
+        final SelectView mode = new SelectView();
+        mode.setTitle(getString(R.string.selinux));
+        mode.setSummary(getString(R.string.selinux_summary));
+        mode.setItems(Arrays.asList(getResources().getStringArray(R.array.selinux_states)));
+        mode.setItem(Selinux.getStringEnforceMode());
+        mode.setOnItemSelected((selectView, position, item) -> {
+            Selinux.setEnforceMode(position, getActivity());
+            getHandler().postDelayed(() -> {
+                mode.setItem(Selinux.getStringEnforceMode());
+                if (position != Selinux.getEnforceMode()) {
+                    Utils.toast(getString(R.string.selinux_no_kernel_toast), getActivity());
+                }
+            }, 500);
+        });
+
+        sl.addItem(mode);
+
+        if (sl.size() > 0) {
+            items.add(sl);
+        }
     }
 
     private void vibrationInit(List<RecyclerViewItem> items) {
