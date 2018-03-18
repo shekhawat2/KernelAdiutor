@@ -47,6 +47,9 @@ public class Misc {
 
     private static final String CPU_TOUCH_BOOST = "/sys/module/msm_performance/parameters/touchboost";
 
+    private static final String SCHED_UPMIGRATE = "/proc/sys/kernel/sched_upmigrate";
+    private static final String SCHED_DOWNMIGRATE = "/proc/sys/kernel/sched_downmigrate";
+
     private static String[] sAvailableCFSSchedulers;
     private static String[] sCpuQuietAvailableGovernors;
 
@@ -149,6 +152,22 @@ public class Misc {
 
     private static void run(String command, String id, Context context) {
         Control.runSetting(command, ApplyOnBootFragment.CPU, id, context);
+    }
+
+    public static int getSchedUpMigrate () {
+       return Utils.strToInt(Utils.readFile(SCHED_UPMIGRATE));
+    }
+
+    public static void setSchedUpMigrate (int value, Context context) {
+        run(Control.write(String.valueOf(value), SCHED_UPMIGRATE), SCHED_UPMIGRATE, context);
+    }
+
+    public static int getSchedDownMigrate () {
+       return Utils.strToInt(Utils.readFile(SCHED_DOWNMIGRATE));
+    }
+
+    public static void setSchedDownMigrate (int value, Context context) {
+        run(Control.write(String.valueOf(value), SCHED_DOWNMIGRATE), SCHED_DOWNMIGRATE, context);
     }
 
 }

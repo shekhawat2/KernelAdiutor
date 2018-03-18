@@ -99,6 +99,7 @@ public class CPUFragment extends RecyclerViewFragment {
     protected void addItems(List<RecyclerViewItem> items) {
         Log.crashlyticsI(TAG, "freqInit");
         freqInit(items);
+        loadShifterInit(items);
         if (Misc.hasMcPowerSaving()) {
             Log.crashlyticsI(TAG, "mcPowerSavingInit");
             mcPowerSavingInit(items);
@@ -122,6 +123,47 @@ public class CPUFragment extends RecyclerViewFragment {
         if (Misc.hasCpuTouchBoost()) {
             Log.crashlyticsI(TAG, "cpuTouchBoostInit");
             cpuTouchBoostInit(items);
+        }
+    }
+
+    private void loadShifterInit(List<RecyclerViewItem> items) {
+        CardView sched = new CardView();
+        sched.setTitle(getString(R.string.load_shifter));
+        final SeekBarView schedUpMigrate = new SeekBarView();
+        schedUpMigrate.setTitle(getString(R.string.sched_upmigrate));
+        schedUpMigrate.setSummary(getString(R.string.sched_upmigrate_summary));
+        schedUpMigrate.setMax(100);
+        schedUpMigrate.setMin(0);
+        schedUpMigrate.setProgress(Misc.getSchedUpMigrate());
+        schedUpMigrate.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+            @Override
+                 public void onStop(SeekBarView seekBarView, int position, String value) {
+                 Misc.setSchedUpMigrate(position, getActivity());
+            }
+            @Override
+                 public void onMove(SeekBarView seekBarView, int position, String value) {
+            }
+        });
+
+        final SeekBarView schedDownMigrate = new SeekBarView();
+        schedDownMigrate.setTitle(getString(R.string.sched_downmigrate));
+        schedDownMigrate.setSummary(getString(R.string.sched_downmigrate_summary));
+        schedDownMigrate.setMax(100);
+        schedDownMigrate.setMin(0);
+        schedDownMigrate.setProgress(Misc.getSchedDownMigrate());
+        schedDownMigrate.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+            @Override
+                 public void onStop(SeekBarView seekBarView, int position, String value) {
+                 Misc.setSchedDownMigrate(position, getActivity());
+            }
+            @Override
+                 public void onMove(SeekBarView seekBarView, int position, String value) {
+         }
+    });
+            sched.addItem(schedUpMigrate);
+            sched.addItem(schedDownMigrate);
+            if (sched.size() > 0) {
+                items.add(sched);
         }
     }
 

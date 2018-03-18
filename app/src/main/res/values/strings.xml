@@ -201,6 +201,12 @@
     <string name="touch_boost">Touch Boost</string>
     <string name="touch_boost_summary">This will boost your minimum CPU speed if you touch the screen or press a button.</string>
 
+    <string name="load_shifter">Load Shifter</string>
+    <string name="sched_upmigrate">Sched Upmigrate</string>
+    <string name="sched_upmigrate_summary">Adjust load at which task is Shifted to Big Cluster(Should be greater than Downmigrate)</string>
+    <string name="sched_downmigrate">Sched Downmigrate</string>
+    <string name="sched_downmigrate_summary">Adjust load at which task is Shifted to Little Cluster(Should be smaller than Upmigrate)</string>
+
     <!-- CPU Voltage -->
     <string name="global_offset">Global Offset</string>
     <string name="override_vmin">Override Minimum Voltage</string>
